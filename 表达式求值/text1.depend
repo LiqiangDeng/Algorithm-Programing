@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1414682330 source:c:\users\hx\desktop\text1\main.cpp
+	<iostream>
+	<malloc.h>
+	<stdlib.h>
+	<stdio.h>
+
+1414682330 source:e:\codeblocks\工程\表达式求值\main.cpp
+	<iostream>
+	<malloc.h>
+	<stdlib.h>
+	<stdio.h>
+
