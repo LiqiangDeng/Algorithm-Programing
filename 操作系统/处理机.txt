@@ -1,0 +1,174 @@
+#include<iostream>
+#include<conio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<string>
+
+
+using namespace std;
+
+
+struct progress{
+	char name[20];
+	float reachtime;
+	float runtime;
+	float begintime;
+	float finishtime;
+	float t;
+	float w;
+};
+
+int main(){
+	int m,i,j;
+	cout<<" input the process's number"<<"  ";
+	cin>>m;
+    progress process[3];
+	for(i=0;i<m;i++)
+	{
+		cout<<"process #"<<i<<":"<<endl;
+		cout<<"process's name"<<endl;
+		cin>>process[i].name;
+		cout<<"process's reachtime"<<endl;
+		cin>>process[i].reachtime;
+		cout<<"process's runtime"<<endl;
+		cin>>process[i].runtime;
+	}
+	float now=process[0].reachtime;
+	for(i=0;i<m;i++)
+	{
+		if(process[i].reachtime<now)
+		{
+			now=process[i].reachtime;
+		}
+	}
+	cout<<now<<endl;
+	int count[3]={0,1,2};
+	for(i=0;i<m;i++)
+	{
+		for(j=i;j<m;j++)
+		{
+			if(process[i].reachtime>process[j].reachtime)
+			{
+				float temp;
+				temp=count[i];
+				count[i]=count[j];
+				count[j]=temp;
+			}
+		}
+	}
+	int a,b,c;
+	a=count[0];
+	b=count[1];
+	c=count[2];
+    float ct,cw;
+	cout<<"which way to conduct? 1:先来先服务 2:短进程优先"<<endl;
+	int flag;
+	cin>>flag;
+	if(flag==1)
+	{
+		for(i=0;i<m;i++)
+		{
+		    cout<<count[i]<<"  ";
+		}
+		cout<<endl;
+		process[a].begintime=now;
+		process[a].finishtime=now=now+process[a].runtime;
+        if(now<process[b].reachtime)
+		{
+			process[b].begintime=now=process[b].reachtime;
+			process[b].finishtime=now=now+process[b].runtime;
+		}
+		else
+		{
+			process[b].begintime=now;
+			process[b].finishtime=now=now+process[b].runtime;
+		}
+		if(now<process[c].reachtime)
+		{
+			process[c].begintime=now=process[c].reachtime;
+			process[c].finishtime=now=now+process[c].runtime;
+		}
+		else
+		{
+			process[c].begintime=now;
+			process[c].finishtime=now=now+process[c].runtime;
+		}
+		process[a].t=process[a].finishtime-process[a].reachtime;
+		process[b].t=process[b].finishtime-process[b].reachtime;
+		process[c].t=process[c].finishtime-process[c].reachtime;
+		process[a].w=(process[a].finishtime-process[a].reachtime)/process[a].runtime;
+		process[b].w=(process[b].finishtime-process[b].reachtime)/process[b].runtime;
+		process[c].w=(process[c].finishtime-process[c].reachtime)/process[c].runtime;
+		ct=(process[a].t +process[b].t+process[c].t)/m;
+		cw=(process[a].w +process[b].w+process[c].w)/m;
+		for(i=0;i<m;i++)
+		{
+			cout<<"process #"<<i<<":"<<process[i].name<<endl;
+		    cout<<process[i].begintime<<" "<<process[i].finishtime<<" "<<process[i].t<<" "<<process[i].w<<" "<<ct<<" "<<cw<<endl;;
+		}
+	}
+	else if(flag==2)
+	{
+		process[a].begintime=now;
+		process[a].finishtime=now=now+process[a].runtime;
+		for(i=0;i<m;i++)
+		{
+			for(j=i;j<m;j++)
+			{
+				if(process[i].runtime>process[j].runtime&&count[i]!=0&&count[j]!=0)
+				{
+					int temp;
+					temp=count[i];
+				    count[i]=count[j];
+				    count[j]=temp;
+				}
+			}
+		}
+		for(i=0;i<m;i++)
+		{
+			cout<<count[i]<<"  ";
+		}
+		cout<<endl;
+		a=count[0];
+	    b=count[1];
+	    c=count[2];
+		if(now<process[b].reachtime)
+		{
+			process[b].begintime=now=process[b].reachtime;
+			process[b].finishtime=now=now+process[b].runtime;
+		}
+		else
+		{
+			process[b].begintime=now;
+			process[b].finishtime=now=now+process[b].runtime;
+		}
+		if(now<process[c].reachtime)
+		{
+			process[c].begintime=now=process[c].reachtime;
+			process[c].finishtime=now=now+process[c].runtime;
+		}
+		else
+		{
+			process[c].begintime=now;
+			process[c].finishtime=now=now+process[c].runtime;
+		}
+		process[a].t=process[a].finishtime-process[a].reachtime;
+		process[b].t=process[b].finishtime-process[b].reachtime;
+		process[c].t=process[c].finishtime-process[c].reachtime;
+		process[a].w=(process[a].finishtime-process[a].reachtime)/process[a].runtime;
+		process[b].w=(process[b].finishtime-process[b].reachtime)/process[b].runtime;
+		process[c].w=(process[c].finishtime-process[c].reachtime)/process[c].runtime;
+		ct=(process[a].t +process[b].t+process[c].t)/m;
+		cw=(process[a].w +process[b].w+process[c].w)/m;
+		for(i=0;i<m;i++)
+		{
+			cout<<"process #"<<i<<":"<<process[i].name<<endl;
+		    cout<<process[i].begintime<<" "<<process[i].finishtime<<" "<<process[i].t<<" "<<process[i].w<<" "<<ct<<" "<<cw<<endl;;
+		}
+	}
+	else
+	{
+		cout<<"input is unable!"<<endl;
+	}
+	return 0;
+}

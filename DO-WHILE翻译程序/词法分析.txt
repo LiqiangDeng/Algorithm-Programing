@@ -1,0 +1,199 @@
+#include<iostream>
+#include<cmath>
+#include<string>
+using namespace std;
+
+char a[80];
+char b[8];
+char ch;
+int syn,p,m,n;
+double sum;
+double temp;
+int temp2;
+void scanner();
+char *c[7]={"begin","if","then","while","do","end","for"};
+
+int main()
+{
+	p=0;
+	cout<<"Please input string end with #"<<endl;
+	do
+	{
+		ch=getchar();
+		a[p++]=ch;
+	}while(ch!='#');
+	p=0;
+	do
+	{
+		scanner();
+		switch(syn)
+		{
+		case 11:cout<<"("<<"Êý×Ö"<<"   "<<sum<<")"<<endl;break;
+		case 13:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 14:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 15:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 16:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 20:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 21:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 23:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 24:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 25:cout<<"("<<"ÔËËã·û"<<"   "<<b<<")"<<endl;break;
+		case 27:cout<<"("<<"½ç·û"<<"   "<<b<<")"<<endl;break;
+		case 28:cout<<"("<<"½ç·û"<<"   "<<b<<")"<<endl;break;
+		case 1:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 2:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 3:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 4:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 5:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 6:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+		case 7:cout<<"("<<"¹Ø¼ü×Ö"<<"   "<<b<<")"<<endl;break;
+                case 0:cout<<"("<<"½ç·û"<<"   "<<b<<")"<<endl;break;
+		case -1:cout<<"ÊäÈë´íÎó"<<endl;break;
+		default:cout<<"("<<"±êÊ¶·û"<<"   "<<b<<")"<<endl;
+		}
+	}while(syn!=0);
+	return 0;
+}
+
+void scanner()
+{
+	sum=0;
+	m=0;
+	for(n=0;n<8;n++)
+	{
+	    b[n]=NULL;
+	}
+        
+	ch=a[p++];
+	while(ch==' ')
+    {
+	  ch=a[p++];
+    }
+	
+			
+	if(((ch>='a')&&(ch<='z'))||((ch>='A')&&(ch<='Z')))
+	{
+		while(((ch>='a')&&(ch<='z'))||((ch>='A')&&(ch<='Z'))||((ch>='0')&&(ch<='9')))
+		{
+			b[m++]=ch;
+            ch=a[p++];
+		}      
+	
+	    b[m++]='\0';
+        p--;
+        syn=10;
+
+	 for(n=0;n<7;n++)
+	 {
+    	 if(strcmp(b,c[n])==0)
+	 	 {
+		 	syn=n+1;
+		    break;
+		 }
+	 }
+	}
+
+				
+	else if((ch>='0')&&(ch<='9'))
+	{
+				
+		while((ch>='0')&&(ch<='9'))
+		{
+			sum=sum*10+ch-'0'; 
+			ch=a[p++];
+		}
+
+			p--;   
+			syn=11;
+	
+	}
+	else switch(ch)
+	{
+		case '<':    
+		    	m=0;    
+				b[m++]=ch;    
+				ch=a[p++];  
+
+				if(ch=='>')
+				{
+					syn=21;
+					b[m++]=ch;
+				}
+				else    
+				{     
+					syn=20;     
+					p--;    
+				}    
+				break;
+
+			
+		case '>': 
+				m=0;    
+				b[m++]=ch;  
+				ch=a[p++];
+
+				if(ch=='=')
+	    		{
+					syn=24;       
+					b[m++]=ch;
+				}
+				else    
+				{     
+					syn=23;     
+					p--;    
+				}     
+				break; 
+			   
+		case '+':
+				syn=13;    
+				b[m++]=ch;    
+				break; 
+
+			
+		case '-':   
+				syn=14;
+				b[m++]=ch;  
+				break; 
+
+
+		case '*':   
+				syn=15;   
+				b[m++]=ch;
+				break;
+
+	        
+		case '/':    
+				syn=16;   
+				b[m++]=ch;
+				break;
+
+
+		case '=':   
+				syn=25;  
+				b[m++]=ch;    
+				break; 
+
+		    
+		case '(':   
+				syn=27;   
+				b[m++]=ch;
+				break;
+
+			
+		case ')':   
+				syn=28;   
+				b[m++]=ch; 
+				break;
+
+			
+		case'#':   
+				syn=0;    
+				b[m++]=ch;  
+				break;
+
+		default:    
+				syn=-1;
+					
+     	}
+		
+	}

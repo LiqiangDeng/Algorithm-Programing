@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1449386761 source:c:\users\hx\desktop\qq\main.cpp
+	<iostream>
+	<strstream>
+	<cmath>
+	<cstring>
+	<stdio.h>
+	<stdlib.h>
+	<stack>
+

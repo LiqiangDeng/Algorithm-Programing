@@ -1,0 +1,149 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <stdio.h>
+#include <stack>
+using namespace std;
+
+int i,j,p;
+char ch;
+char relation[14][14],a[15][15];
+char b[80],I[10],F[10],T[10],t[10],e[10],E[10],S[10];
+char mark[14]={'S','E','e','T','t','F','i','(','=',')','+','*','$','#'};
+int compare(char pre, char d);
+int main()
+{
+    stack<char> s;
+    relation[1][9]=relation[3][2]=relation[5][4]=relation[6][8]=relation[7][1]=relation[10][3]=relation[11][5]=relation[8][1]=relation[13][13]='=';
+    relation[3][10]=relation[3][12]=relation[5][11]=relation[5][12]=relation[7][3]=relation[7][5]=relation[7][6]=relation[7][7]=relation[10][5]=relation[10][6]=relation[10][7]=relation[11][6]=relation[11][7]=relation[8][3]=relation[8][5]=relation[8][6]=relation[8][7]=relation[13][0]=relation[13][6]='<';
+    relation[4][2]=relation[4][10]=relation[4][12]=relation[5][9]=relation[5][10]=relation[6][4]=relation[6][9]=relation[6][10]=relation[6][11]=relation[6][12]=relation[9][4]=relation[12][2]=relation[12][10]=relation[12][12]=relation[0][13]=relation[1][13]=relation[2][13]=relation[9][11]=relation[3][13]=relation[4][13]=relation[5][13]=relation[9][13]=relation[6][13]=relation[12][13]=relation[2][9]=relation[4][9]=relation[3][9]='>';
+    for(i=1;i<15;i++)
+    {
+        a[0][i]=mark[i-1];
+    }
+    for(j=1;j<15;j++)
+    {
+        a[j][0]=mark[j-1];
+    }
+    for(i=1;i<15;i++)
+    {
+        for(j=1;j<15;j++)
+        {
+            a[i][j]=relation[i-1][j-1];
+        }
+    }
+    p=0;
+	cout<<"Please input string end with #"<<endl;
+	do
+	{
+		ch=getchar();
+		b[p++]=ch;
+	}while(ch!='#');
+	p=0;
+	int m=0;
+	s.push('#');
+	while(!s.empty())
+    {
+        if(((b[p]>='a')&&(b[p]<='z'))||((b[p]>='A')&&(b[p]<='Z')))
+	    {
+	        I[m+1]=b[p];
+	        b[p]='i';
+	    }
+        char pre = s.top();
+        if(compare(pre,b[p])==1)
+        {
+            if(b[p]=='i'){m++;}
+            s.push(b[p]);
+            cout<<"移进"<<b[p]<<endl;
+        }
+        else if(compare(pre,b[p])==0)
+		{
+            cout<<"归约"<<endl;
+            p--;
+            char c=s.top();
+            switch(c)
+            {
+                case'S':s.pop();if(s.top()=='#'){s.pop();break;}else{cout<<"error"<<endl;break;}
+
+				case'E':s.pop();if(s.top()=='=')
+						{
+							s.pop();
+					        if(s.top()=='i')
+							{
+								s.pop();s.push('S');m--;S[m-1]=I[m];cout<<"("<<"="<<","<<E[m+1]<<","<<"_"<<","<<S[m-1]<<")"<<endl;break;
+							}
+							else {cout<<"error"<<endl;break;}
+						}
+					    else {cout<<"error"<<endl;break;}
+
+                case'e':s.pop();if(s.top()=='T')
+						{   s.pop();
+						    if(s.top()=='+')
+                            {
+                                s.pop();s.push('e');m--;e[m]='e'+m;cout<<"("<<"+"<<","<<T[m]<<","<<T[m+1]<<","<<e[m]<<")"<<endl;break;
+						    }
+						    else{s.push('E');m--;E[m]='E'+m;cout<<"("<<"+"<<","<<T[m]<<","<<e[m+1]<<","<<E[m]<<")"<<endl;break;}
+						}else {cout<<"error"<<endl;break;}
+
+				case't':s.pop();if(s.top()=='F')
+						{   s.pop();
+						    if(s.top()=='*')
+                            {
+                                s.pop();s.push('t');m--;t[m]='t'+m;cout<<"("<<"+"<<","<<F[m]<<","<<F[m+1]<<","<<t[m]<<")"<<endl;break;
+						    }
+						    else{s.push('T');m--;T[m]='T'+m;cout<<"("<<"*"<<","<<F[m]<<","<<t[m+1]<<","<<T[m]<<")"<<endl;break;}
+						}else {cout<<"error"<<endl;break;}
+				case'i':{s.pop();s.push('F');F[m]=I[m];break;}
+				case'F':{s.pop();
+					    if(s.top()=='*')
+						{
+							s.pop();
+							s.push('t');t[m]=F[m];break;
+						}
+						else{s.push('T');T[m]=F[m];break;}
+						}
+				case'T':{s.pop();
+					    if(s.top()=='+')
+						{
+							s.pop();
+							s.push('e');e[m]=T[m];break;
+						}
+						else{s.push('E');break;}
+						}
+				case')':{s.pop();
+				        if(s.top()=='E')
+						{
+							s.pop();
+							if(s.top()=='('){s.pop();s.push('F');break;}
+							else {cout<<"error"<<endl;break;}
+						}
+				        }
+            }
+        }
+		else{cout<<"关系错误"<<endl;break;}
+        p++;
+    }
+    if(s.empty())
+    {
+        cout<<"分析成功"<<endl;
+        cout<<"四元式输出成功"<<endl;
+    }else{
+        cout<<"分析失败"<<endl;
+    }
+    return 0;
+}
+
+int compare(char pre, char d)
+{
+    int a=50,b=50;
+    for(i=0;i<14;i++)
+    {
+        if(mark[i]==pre)a=i;
+        if(mark[i]==d)b=i;
+    }
+	if(a==50){return 2;}
+    char rel = relation[a][b];
+    if(rel=='>'){    return 0;   }
+    if(rel=='='||rel=='<'){    return 1;   }
+    return 2;
+}

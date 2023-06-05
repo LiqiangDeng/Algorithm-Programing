@@ -1,0 +1,118 @@
+#include<iostream>
+#include<conio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<string>
+
+
+using namespace std;
+void print(int a[],int b[]);
+void p(int a[],int b[]);
+void v(int a[],int b[]);
+int i,sign;
+int main()
+{
+	int person[5]={0,0,0,0,0};
+	int stick[5]={1,1,1,1,1};
+	for(i=0;i<5;i++)
+	{
+		if(person[i]==0)
+		{
+			if(stick[i]==1)
+			{
+				stick[i]=0;
+				if(stick[(i+1)%5]==1)
+				{
+					stick[(i+1)%5]=0;
+					person[i]=1;
+				}
+				else
+				{
+					person[i]=2;
+				}
+			}
+		}
+	}
+	print(person,stick);
+	do
+	{
+		v(person,stick);
+		p(person,stick);
+		print(person,stick);
+		cout<<"继续输入1，停止按任意键"<<endl;
+		cin>>sign;
+	}while(sign==1);
+    return 0;
+}
+void print(int a[],int b[])
+{
+	for(i=0;i<5;i++)
+	{
+		if(a[i]==0)
+		{
+			cout<<"哲学家"<<i<<"在思考"<<"    ";
+		}
+		else if(a[i]==1)
+		{
+			cout<<"哲学家"<<i<<"在就餐"<<"    ";
+		}
+		else if(a[i]==2)
+		{
+			cout<<"哲学家"<<i<<"有一只筷子，在等待"<<"    ";
+		}
+	}
+    for(i=0;i<5;i++)
+	{
+		if(b[i]==0)
+		{
+			cout<<"筷子"<<i<<"在被用着"<<"    ";
+		}
+		else if(b[i]==1)
+		{
+			cout<<"筷子"<<i<<"在闲着"<<"    ";
+		}
+	}
+	cout<<endl;
+}
+void v(int a[],int b[])
+{
+	for(i=0;i<5;i++)
+	{
+		if(a[i]==1)
+		{
+			a[i]=0;
+			b[i]=1;
+			b[(i+1)%5]=1;
+		}
+	}
+}
+void p(int a[],int b[])
+{
+	for(i=0;i<5;i++)
+	{
+		if(a[i]==2)
+		{
+			if(b[(i+1)%5]==1)
+			{
+                b[(i+1)%5]=0;
+				a[i]=1;
+			}
+		}
+	}
+	for(i=0;i<5;i++)
+	{
+			if(b[i]==1)
+			{
+				b[i]=0;
+				if(b[(i+1)%5]==1)
+				{
+					b[(i+1)%5]=0;
+					a[i]=1;
+				}
+				else
+				{
+					a[i]=2;
+				}
+			}	
+	}
+}
