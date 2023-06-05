@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1417661644 source:c:\users\hx\desktop\课内实践\main.cpp
+	<iostream>
+	<conio.h>
+	<stdlib.h>
+	<math.h>
+
+1417661644 source:e:\codeblocks\工程\单链表的操作\main.cpp
+	<iostream>
+	<conio.h>
+	<stdlib.h>
+	<math.h>
+
