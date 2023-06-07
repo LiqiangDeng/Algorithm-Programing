@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1413952797 source:c:\users\hx\desktop\text4\main.cpp
+	<iostream>
+	<conio.h>
+	<stdlib.h>
+	<math.h>
+
